@@ -10,7 +10,7 @@ import WeatherForm from "./weather/WeatherForm"
 const Home = () => {
  
   return (
-    <div>
+    <div className="h-full w-full">
       <WeatherForm city={""}/>
     </div>
   )

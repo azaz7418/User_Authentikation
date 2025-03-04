@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0 auto;
   padding: 2rem;
   display: flex;
@@ -11,4 +11,5 @@ body {
 
 input{
   margin: 10px 0;
-}
+} */
+@import "tailwindcss";

@@ -3,9 +3,11 @@ import Header from "../components/Header";
 
 function Layout() {
   return (
-    <div style={{ height: "100vh" }}>
+    <div className="flex flex-col h-screen">
       <Header />
-      <Outlet />
+      <div className=" h-full bg-amber-200 overflow-hidden">
+        <Outlet />
+      </div>
     </div>
   );
 }

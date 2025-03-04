@@ -14,17 +14,17 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-   <Route path='/' element={<Layout/>}>
-    <Route path='/' element={<Home/>} />
-    <Route path='/login' element={<Login/>} />
-    {/* <Route path='/contact' element={<Profile/>} /> */}
-   </Route>
+      <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path='/profile' element={<Profile/>} /> */}
+      </Route>
     )
-  )
+  );
 
   return (
     <>
-    <RouterProvider router={router}/>
+      <RouterProvider router={router} />
       {/* <Auth role={["admin"]}>
         {" "}
         <Home />{" "}

@@ -12,7 +12,7 @@ const getWeatherInfo = async (city: string) => {
 
 const WeatherForm: React.FC = () => {
   const [city, setCity] = useState("Gopalganj");
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState();
   const [videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
 
   const { data, refetch } = useQuery({
@@ -25,7 +25,7 @@ const WeatherForm: React.FC = () => {
   // Update video background when new weather data is available
   useEffect(() => {
     if (data?.current?.condition?.text) {
-      let path = "/src/assets/video/weather-video.mp4"; // Default path
+      let path = "/src/assets/video/partlycloudy.mp4"; // Default path
 
       if (data.current.condition.text.includes("Partly cloudy")) {
         path = "/src/assets/video/partlycloudy.mp4";
@@ -81,6 +81,7 @@ const WeatherForm: React.FC = () => {
   const submitHandler = () => {
     setCity(inputValue); // Update city state
     refetch(); // Manually trigger refetch of data
+    setInputValue("");
   };
 
   return (
@@ -91,18 +92,29 @@ const WeatherForm: React.FC = () => {
       </video>
 
       <div className="px-12 py-4 text-center backdrop-blur-xl rounded-xl">
+        {/* <h1 className="text-black">hello</h1> */}
         {data && (
-          <div className="flex justify-between items-start mb-6 ">
-            <div className="flex flex-col gap-0">
-              <img src={data.current.condition.icon} alt="weather icon" />
-              <h2>{data.current.condition.text}</h2>
+          <div>
+            <div className="flex justify-between items-center gap-10 mb-6 ">
+              <div className="flex flex-col gap-0">
+                <div className=" text-2xl font-semibold mt-1.5">
+                  {data.current.temp_c} <span className="text-white text-4xl">°C</span>
+                </div>
+              </div>
+              <div> <img src={data.current.condition.icon} alt="weather icon" /></div>
+              <div>
+                <h1>{data?.location.name}</h1>
+                <h1>{data?.location.country}</h1>
+              </div>
             </div>
-            <div className=" text-2xl font-semibold mt-1.5" >{data.current.temp_c} <span className="text-white text-4xl">°C</span></div>
+            <div className="m-5">
+              <h2>{data.current.condition.text} </h2>
+            </div>
           </div>
         )}
 
         <Form onFinish={submitHandler}>
-          <Space.Compact style={{ width: "100%" }}>
+          <Space.Compact style={{ width: "80%" }}>
             <Input
               onChange={(e) => setInputValue(e.target.value)}
               value={inputValue}

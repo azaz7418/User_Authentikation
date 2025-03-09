@@ -1,7 +1,9 @@
 import { Button, Form, Input, Space } from "antd";
 import axios from "axios";
+import moment from "moment-timezone";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
+import{countryToTimeZone} from "../../ConstantData"
 
 const getWeatherInfo = async (city: string) => {
   const { data } = await axios.get("http://api.weatherapi.com/v1/current.json", {
@@ -10,10 +12,31 @@ const getWeatherInfo = async (city: string) => {
   return data;
 };
 
+// const countryToTimeZone: Record<string, string> = {
+//   "Afghanistan": "Asia/Kabul",
+//   "Albania": "Europe/Tirane",
+//   "Algeria": "Africa/Algiers",
+//   "Argentina": "America/Argentina/Buenos_Aires",
+//   "Australia": "Australia/Sydney",
+//   "Brazil": "America/Sao_Paulo",
+//   "Canada": "America/Toronto",
+//   "China": "Asia/Shanghai",
+//   "France": "Europe/Paris",
+//   "Germany": "Europe/Berlin",
+//   "India": "Asia/Kolkata",
+//   "Bangladesh": "Asia/Dhaka",
+//   "Japan": "Asia/Tokyo",
+//   "Russia": "Europe/Moscow",
+//   "South Africa": "Africa/Johannesburg",
+//   "United Kingdom": "Europe/London",
+//   "United States": "America/New_York"
+// };
+
 const WeatherForm: React.FC = () => {
-  const [city, setCity] = useState("Gopalganj");
+  const [city, setCity] = useState("Khulna");
   const [inputValue, setInputValue] = useState();
   const [videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
+  const [time, setTime] = useState("");
 
   const { data, refetch } = useQuery({
     queryFn: () => getWeatherInfo(city),
@@ -21,6 +44,23 @@ const WeatherForm: React.FC = () => {
     enabled: !!city, // Only fetch if city is defined
   });
   console.log(data);
+
+  // time
+  useEffect(() => {
+    if (countryToTimeZone[data?.location?.country]) {
+      const updateTime = () => {
+        const timeZone = countryToTimeZone[data?.location?.country];
+        setTime(moment().tz(timeZone).format("YYYY-MM-DD HH:mm:ss"));
+      };
+
+      updateTime(); // Initial update
+      const interval = setInterval(updateTime, 1000); // Update every second
+
+      return () => clearInterval(interval); // Cleanup on unmount
+    } else {
+      setTime("Invalid country name!");
+    }
+  }, [data]);
 
   // Update video background when new weather data is available
   useEffect(() => {
@@ -84,6 +124,7 @@ const WeatherForm: React.FC = () => {
     setInputValue("");
   };
 
+  
   return (
     <div className="relative flex justify-center items-center h-screen bg-transparent p-4">
       {/* Background video */}
@@ -101,12 +142,18 @@ const WeatherForm: React.FC = () => {
                   {data.current.temp_c} <span className="text-white text-4xl">°C</span>
                 </div>
               </div>
-              <div> <img src={data.current.condition.icon} alt="weather icon" /></div>
+              <div>
+                {" "}
+                <img src={data.current.condition.icon} alt="weather icon" />
+              </div>
               <div>
                 <h1>{data?.location.name}</h1>
                 <h1>{data?.location.country}</h1>
               </div>
             </div>
+            <p className="text-lg font-semibold mt-2">
+              {time ? `Current Time: ${time}` : `time:${data.location.localtime}`}
+            </p>
             <div className="m-5">
               <h2>{data.current.condition.text} </h2>
             </div>

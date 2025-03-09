@@ -3,7 +3,9 @@ import axios from "axios";
 import moment from "moment-timezone";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import{countryToTimeZone} from "../../ConstantData"
+import { countryToTimeZone } from "../../ConstantData";
+import { setVideo, setTimeZone, setLocation } from "../../redux/features/videoPath";
+import { useAppDispatch } from "../../redux/store";
 
 const getWeatherInfo = async (city: string) => {
   const { data } = await axios.get("http://api.weatherapi.com/v1/current.json", {
@@ -12,55 +14,43 @@ const getWeatherInfo = async (city: string) => {
   return data;
 };
 
-// const countryToTimeZone: Record<string, string> = {
-//   "Afghanistan": "Asia/Kabul",
-//   "Albania": "Europe/Tirane",
-//   "Algeria": "Africa/Algiers",
-//   "Argentina": "America/Argentina/Buenos_Aires",
-//   "Australia": "Australia/Sydney",
-//   "Brazil": "America/Sao_Paulo",
-//   "Canada": "America/Toronto",
-//   "China": "Asia/Shanghai",
-//   "France": "Europe/Paris",
-//   "Germany": "Europe/Berlin",
-//   "India": "Asia/Kolkata",
-//   "Bangladesh": "Asia/Dhaka",
-//   "Japan": "Asia/Tokyo",
-//   "Russia": "Europe/Moscow",
-//   "South Africa": "Africa/Johannesburg",
-//   "United Kingdom": "Europe/London",
-//   "United States": "America/New_York"
-// };
-
 const WeatherForm: React.FC = () => {
   const [city, setCity] = useState("Khulna");
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState<string>();
   const [videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
   const [time, setTime] = useState("");
+  const [date, setDate] = useState("");
 
+  const dispatch = useAppDispatch();
   const { data, refetch } = useQuery({
     queryFn: () => getWeatherInfo(city),
     queryKey: ["weather-data", city],
-    enabled: !!city, // Only fetch if city is defined
+    enabled: !!city,
   });
-  console.log(data);
 
   // time
   useEffect(() => {
     if (countryToTimeZone[data?.location?.country]) {
+      const timeZone = countryToTimeZone[data?.location?.country];
       const updateTime = () => {
-        const timeZone = countryToTimeZone[data?.location?.country];
-        setTime(moment().tz(timeZone).format("YYYY-MM-DD HH:mm:ss"));
+        const currentDate = moment().tz(timeZone).format("YYYY-MM-DD");
+        const currentTime = moment().tz(timeZone).format("HH:mm:ss");
+        setDate(currentDate); // Set the date separately
+        setTime(currentTime); // Set the time separately
       };
-
+      console.log({ timeZone });
+      if (timeZone) {
+        dispatch(setTimeZone({ timeZone }));
+      }
       updateTime(); // Initial update
       const interval = setInterval(updateTime, 1000); // Update every second
 
       return () => clearInterval(interval); // Cleanup on unmount
     } else {
       setTime("Invalid country name!");
+      setDate(""); // Clear the date in case of invalid country
     }
-  }, [data]);
+  }, [data?.location?.country]);
 
   // Update video background when new weather data is available
   useEffect(() => {
@@ -112,66 +102,59 @@ const WeatherForm: React.FC = () => {
       } else if (data?.current?.condition?.text?.includes("Rain")) {
         path = "/src/assets/video/rainy.mp4";
       }
-
+      dispatch(setVideo({ path }));
+      dispatch(setLocation({ name, country }));
       setVideoPath(path);
     }
-  }, [data]); // Runs when `data` updates
+  }, [data]);
+
+  const name = data?.location.name;
+  const country = data?.location.country;
 
   // Handle form submission
   const submitHandler = () => {
-    setCity(inputValue); // Update city state
-    refetch(); // Manually trigger refetch of data
+    setCity(inputValue as string);
+    refetch();
     setInputValue("");
   };
 
-  
   return (
-    <div className="relative flex justify-center items-center h-screen bg-transparent p-4">
-      {/* Background video */}
-      <video key={videoPath} className="absolute top-0 left-0 w-full h-full object-cover" autoPlay loop muted>
-        <source src={videoPath} type="video/mp4" />
-      </video>
-
-      <div className="px-12 py-4 text-center backdrop-blur-xl rounded-xl">
-        {/* <h1 className="text-black">hello</h1> */}
-        {data && (
-          <div>
-            <div className="flex justify-between items-center gap-10 mb-6 ">
-              <div className="flex flex-col gap-0">
-                <div className=" text-2xl font-semibold mt-1.5">
-                  {data.current.temp_c} <span className="text-white text-4xl">°C</span>
+    <div>
+      <div className="relative flex justify-center items-center h-screen bg-transparent p-4">
+        <div className="px-12 py-4 text-center backdrop-blur-xl backdrop-brightness-75 backdrop-contrast-75 rounded-xl">
+          {/* Weather info */}
+          {data && (
+            <div>
+              <div className="flex justify-between items-center gap-10 mb-6 ">
+                <div>
+                  <img src={data.current.condition.icon} alt="weather icon" />
+                </div>
+                <div className="flex flex-col gap-0">
+                  <div className="text-2xl font-semibold mt-1.5">
+                    {data.current.temp_c} <span className="text-white text-4xl">°C</span>
+                  </div>
                 </div>
               </div>
-              <div>
-                {" "}
-                <img src={data.current.condition.icon} alt="weather icon" />
-              </div>
-              <div>
-                <h1>{data?.location.name}</h1>
-                <h1>{data?.location.country}</h1>
-              </div>
-            </div>
-            <p className="text-lg font-semibold mt-2">
-              {time ? `Current Time: ${time}` : `time:${data.location.localtime}`}
-            </p>
-            <div className="m-5">
-              <h2>{data.current.condition.text} </h2>
-            </div>
-          </div>
-        )}
 
-        <Form onFinish={submitHandler}>
-          <Space.Compact style={{ width: "80%" }}>
-            <Input
-              onChange={(e) => setInputValue(e.target.value)}
-              value={inputValue}
-              placeholder="Enter your location"
-            />
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Space.Compact>
-        </Form>
+              <div className="m-5">
+                <h2>{data.current.condition.text} </h2>
+              </div>
+            </div>
+          )}
+
+          <Form onFinish={submitHandler}>
+            <Space.Compact style={{ width: "80%" }}>
+              <Input
+                onChange={(e) => setInputValue(e.target.value)}
+                value={inputValue}
+                placeholder="Enter your location"
+              />
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Space.Compact>
+          </Form>
+        </div>
       </div>
     </div>
   );

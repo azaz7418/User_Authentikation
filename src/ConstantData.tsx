@@ -115,7 +115,7 @@ export const countryToTimeZone: Record<string, string> = {
     "Ukraine": "Europe/Kiev",
     "United Arab Emirates": "Asia/Dubai",
     "United Kingdom": "Europe/London",
-    "United States": "America/New_York",
+    "United States of America": "America/New_York",    
     "Uruguay": "America/Montevideo",
     "Uzbekistan": "Asia/Tashkent",
     "Venezuela": "America/Caracas",

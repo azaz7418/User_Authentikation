@@ -32,11 +32,11 @@ const Header = () => {
   return (
     <div className="  flex justify-between items-center text-white gap-3 w-full backdrop-blur-2xl backdrop-brightness-50  p-5">
       <div>
-        <h1 className="text-lg font-semibold font-[Times New Roman]">{time && time}</h1>
-        <h1 className="text-lg font-semibold font-[Times New Roman]">{date && date}</h1>
+        <h1 className="text-sm font-semibold font-[Times New Roman]">{time && time}</h1>
+        <h1 className="text-sm font-semibold font-[Times New Roman]">{date && date}</h1>
       </div>
       <div>
-        <h2 className="text-lg font-semibold font-[Times New Roman]">{name}</h2>
+        <h2 className="text-sm font-semibold font-[Times New Roman]">{name}</h2>
         <h2 className="text-lg font-semibold font-[Times New Roman]">{country}</h2>
       </div>
     </div>

@@ -136,7 +136,7 @@ const WeatherForm: React.FC = () => {
                 </div>
               </div>
 
-              <div className="m-5">
+              <div className="m-5 font-medium text-amber-700">
                 <h2>{data.current.condition.text} </h2>
               </div>
             </div>

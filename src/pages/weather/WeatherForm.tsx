@@ -15,18 +15,22 @@ const getWeatherInfo = async (city: string) => {
 };
 
 const WeatherForm: React.FC = () => {
+  const [time, setTime] = useState("");
+  const [date, setDate] = useState("");
+  const [temp, setTemp] = useState(true);
   const [city, setCity] = useState("Khulna");
   const [inputValue, setInputValue] = useState<string>();
   const [videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
 
   const dispatch = useAppDispatch();
+
   const { data, refetch } = useQuery({
     queryFn: () => getWeatherInfo(city),
     queryKey: ["weather-data", city],
     enabled: !!city,
   });
+  
+console.log(data);
 
   // time
   useEffect(() => {
@@ -108,8 +112,14 @@ const WeatherForm: React.FC = () => {
     }
   }, [data]);
 
+  
   const name = data?.location.name;
   const country = data?.location.country;
+
+
+  const tempHandler = (isCelsius: boolean) => {
+    setTemp(isCelsius);
+  };
 
   // Handle form submission
   const submitHandler = () => {
@@ -130,13 +140,28 @@ const WeatherForm: React.FC = () => {
                   <img src={data.current.condition.icon} alt="weather icon" />
                 </div>
                 <div className="flex flex-col gap-0">
-                  <div className="text-2xl font-semibold mt-1.5">
-                    {data.current.temp_c} <span className="text-white text-4xl">°C</span>
+                  <div className="text-2xl font-semibold mt-1.5 flex">
+                    <h1>{temp ? data.current.temp_c : data.current.temp_f}</h1>
+                    <span className="flex justify-center  gap-2 align-super ml-3">
+                      <span
+                        onClick={() => tempHandler(true)}
+                        className={`text-sm  cursor-pointer ${temp ? "text-white font-semibold" : "text-gray-500"}`}
+                      >
+                        °C
+                      </span>
+                      <div className="text-sm ">|</div>
+                      <span
+                        onClick={() => tempHandler(false)}
+                        className={`text-sm  cursor-pointer ${!temp ? "text-white font-semibold" : "text-gray-500"}`}
+                      >
+                        °F
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="m-5 font-medium text-amber-700">
+              <div className="m-5 font-medium text-white">
                 <h2>{data.current.condition.text} </h2>
               </div>
             </div>

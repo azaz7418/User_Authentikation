@@ -136,7 +136,7 @@ console.log(data);
           {data && (
             <div>
               <div className="flex justify-between items-center gap-10 mb-6 ">
-                <div>
+                <div className=" shadow-2xs">
                   <img src={data.current.condition.icon} alt="weather icon" />
                 </div>
                 <div className="flex flex-col gap-0">

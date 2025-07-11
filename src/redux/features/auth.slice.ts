@@ -29,7 +29,6 @@ export const authSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { setToken, setUser } = authSlice.actions;
 const authReducer: Reducer<TInitState> = authSlice.reducer;
 

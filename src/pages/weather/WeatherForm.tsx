@@ -29,6 +29,7 @@ const WeatherForm: React.FC = () => {
     queryKey: ["weather-data", city],
     enabled: !!city,
   });
+console.log(data);
 
   // Extracted variables before using them
   const name = data?.location?.name;
@@ -72,7 +73,7 @@ const WeatherForm: React.FC = () => {
         path = "/src/assets/video/light-snow.mp4";
       } else if (conditionText.includes("thunder")) {
         path = "/src/assets/video/thunderstorm.mp4";
-      } 
+      }
 
       dispatch(setVideo({ path }));
       dispatch(setLocation({ name, country }));
@@ -90,6 +91,8 @@ const WeatherForm: React.FC = () => {
       refetch();
     }
     setInputValue("");
+    // console.log(data);
+    
   };
 
   return (

@@ -2,16 +2,10 @@ import { useAppSelector } from "../redux/store";
 import { useState, useEffect } from "react";
 import moment from "moment";
 
-// import { NavLink } from "react-router-dom";
-// interface HeaderProps {
-//   time: string;
-//   date: string;
-// }
+
 
 const Header = () => {
-  // console.log(time, date);
   const { timeZone, name, country } = useAppSelector((state) => state.video);
-  //   const {  } = useAppSelector((state) => state.video);
 
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");

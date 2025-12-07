@@ -25,7 +25,7 @@ export const useWeatherLogic = (initialCity?: string) => {
     enabled: !!city,
   });
   if (isError) {
-    setCity("New York");
+    <h2>error happen</h2>
   }
   // Extracted variables before using them
   const name = data?.location?.name;

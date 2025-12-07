@@ -3,13 +3,15 @@ import Header from "../components/Header";
 import { useAppSelector } from "../redux/store";
 
 function Layout() {
-  const { video } = useAppSelector((state) => state);
+  const { image } = useAppSelector((state) => state.video);
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <video key={video?.video} className="absolute top-0 left-0 w-full h-full object-cover -z-10" autoPlay loop muted>
+      {/* <video key={video?.video} className="absolute top-0 left-0 w-full h-full object-cover -z-10" autoPlay loop muted>
         <source src={video?.video} type="video/mp4" />
-      </video>
+      </video> */}
+      <img className="absolute top-0 left-0 w-full h-full object-cover -z-10" src={image} alt="" />
       <div className=" h-full bg-transparent overflow-hidden">
         <Outlet />
       </div>

@@ -4,12 +4,13 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./features/auth.slice";
-import videoReducer from "./features/videoPath";
+// import videoReducer from "./features/videoPath";
+import imageReducer from "./features/imagePath";
 
 // Create a rootReducer object to hold all the reducers
 const rootReducer = combineReducers({
   auth: authReducer,
-  video:videoReducer
+  video: imageReducer,
 });
 
 // Redux Persist configuration

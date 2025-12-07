@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWeatherLogic } from "./WeatherFunction";
+// import { useAppSelector } from "../../redux/store";
 
 const WeatherForm: React.FC<{ city?: string }> = ({ city: initialCity }) => {
   const [isCelsius, setIsCelsius] = useState(true);
@@ -8,6 +9,7 @@ const WeatherForm: React.FC<{ city?: string }> = ({ city: initialCity }) => {
 
   const navigate = useNavigate();
   const { data, time, date, setCity, refetch } = useWeatherLogic(initialCity);
+  // const { image } = useAppSelector((state) => state.im);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,11 +70,6 @@ const WeatherForm: React.FC<{ city?: string }> = ({ city: initialCity }) => {
               <div className="relative">
                 {/* Subtle glow behind icon */}
                 <div className="absolute inset-0 rounded-full bg-white/20 blur-xl"></div>
-                <img
-                  src={data.current.condition.icon}
-                  alt="weather icon"
-                  className="relative h-24 w-24 drop-shadow-lg"
-                />
               </div>
 
               <div className="mt-4 flex items-start">

@@ -2,11 +2,9 @@ import moment from "moment-timezone";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { countryToTimeZone } from "../../ConstantData";
-import { setVideo, setTimeZone, setLocation } from "../../redux/features/videoPath";
+import {  setTimeZone, setLocation, setImage } from "../../redux/features/imagePath";
 import { useAppDispatch } from "../../redux/store";
 import { getWeatherInfo } from "../utilities";
-
-
 
 export const useWeatherLogic = (initialCity?: string) => {
   const [time, setTime] = useState("");
@@ -51,67 +49,126 @@ export const useWeatherLogic = (initialCity?: string) => {
 
   useEffect(() => {
     if (data?.current?.condition?.text) {
-      let path = "/src/assets/video/weather-video.mp4"; // Default path
+      let path = "/src/assets/image/weather-image.jpg"; // Default path
 
       const conditionText = data.current.condition.text.toLowerCase();
 
       if (conditionText.includes("partly cloudy")) {
-        path = "/src/assets/video/partlycloudy.mp4";
+        path = "/src/assets/image/partlycloudy.jpg";
       } else if (conditionText.includes("light rain")) {
-        path = "/src/assets/video/light-rain.mp4";
+        path = "/src/assets/image/light-rain.jpg";
       } else if (conditionText.includes("sunny")) {
-        path = "/src/assets/video/sunny.mp4";
+        path = "/src/assets/image/sunny.jpg";
       } else if (conditionText.includes("cloudy")) {
-        path = "/src/assets/video/cloudy.mp4";
+        path = "/src/assets/image/cloudy.jpg";
       } else if (conditionText.includes("overcast")) {
-        path = "/src/assets/video/overcast.mp4";
+        path = "/src/assets/image/overcast.jpg";
       } else if (conditionText.includes("snow")) {
-        path = "/src/assets/video/light-snow.mp4";
+        path = "/src/assets/image/light-snow.jpg";
       } else if (conditionText.includes("thunder")) {
-        path = "/src/assets/video/thunderstorm.mp4";
+        path = "/src/assets/image/thunderstorm.jpg";
       } else if (conditionText.includes("rain")) {
-        path = "/src/assets/video/heavy-rain.mp4";
+        path = "/src/assets/image/heavy-rain.jpg";
       } else if (conditionText.includes("mist")) {
-        path = "/src/assets/video/mist2.mp4";
+        path = "/src/assets/image/mist.jpg";
       } else if (conditionText.includes("fog")) {
-        path = "/src/assets/video/fog.mp4";
+        path = "/src/assets/image/fog.jpg";
       } else if (conditionText.includes("drizzle")) {
-        path = "/src/assets/video/drizzle.mp4";
+        path = "/src/assets/image/drizzle.jpg";
       } else if (conditionText.includes("clear")) {
-        path = "/src/assets/video/clear.mp4";
+        path = "/src/assets/image/clear.jpg";
       } else if (conditionText.includes("patchy rain")) {
-        path = "/src/assets/video/patchy-rain.mp4";
+        path = "/src/assets/image/patchy-rain.jpg";
       } else if (conditionText.includes("patchy snow")) {
-        path = "/src/assets/video/patchy-snow.mp4";
+        path = "/src/assets/image/patchy-snow.jpg";
       } else if (conditionText.includes("patchy sleet")) {
-        path = "/src/assets/video/patchy-sleet.mp4";
-      } else if (conditionText.includes("patchy freezing drizzle")) {
-        path = "/src/assets/video/patchy-freezing-drizzle.mp4";
+        path = "/src/assets/image/patchy-sleet.jpg";
       } else if (conditionText.includes("blizzard")) {
-        path = "/src/assets/video/blizzard.mp4";
+        path = "/src/assets/image/blizzard.jpg";
       } else if (conditionText.includes("freezing drizzle")) {
-        path = "/src/assets/video/freezing-drizzle.mp4";
+        path = "/src/assets/image/freezing-drizzle.jpg";
       } else if (conditionText.includes("heavy freezing drizzle")) {
-        path = "/src/assets/video/heavy-freezing-drizzle.mp4";
+        path = "/src/assets/image/heavy-freezing-drizzle.jpg";
       } else if (conditionText.includes("light drizzle")) {
-        path = "/src/assets/video/light-drizzle.mp4";
+        path = "/src/assets/image/light-drizzle.jpg";
       } else if (conditionText.includes("light freezing rain")) {
-        path = "/src/assets/video/light-freezing-rain.mp4";
+        path = "/src/assets/image/light-freezing-rain.jpg";
       } else if (conditionText.includes("light sleet")) {
-        path = "/src/assets/video/light-sleet.mp4";
+        path = "/src/assets/image/light-sleet.jpg";
       } else if (conditionText.includes("light snow")) {
-        path = "/src/assets/video/light-snow.mp4";
+        path = "/src/assets/image/light-snow.jpg";
       } else if (conditionText.includes("moderate snow")) {
-        path = "/src/assets/video/moderate-snow.mp4";
+        path = "/src/assets/image/moderate-snow.jpg";
       } else if (conditionText.includes("heavy snow")) {
-        path = "/src/assets/video/heavy-snow.mp4";
+        path = "/src/assets/image/heavy-snow.jpg";
       } else {
-        path = "/src/assets/video/weather-video.mp4";
+        path = "/src/assets/image/weather-video.jpg";
       }
-      dispatch(setVideo({ path }));
+      dispatch(setImage({ path }));
       dispatch(setLocation({ name, country }));
     }
   }, [data, dispatch, name, country]);
+  //   useEffect(() => {
+  //     if (data?.current?.condition?.text) {
+  //       let path = "/src/assets/video/weather-video.mp4"; // Default path
+
+  //       const conditionText = data.current.condition.text.toLowerCase();
+
+  //       if (conditionText.includes("partly cloudy")) {
+  //         path = "/src/assets/video/partlycloudy.mp4";
+  //       } else if (conditionText.includes("light rain")) {
+  //         path = "/src/assets/video/light-rain.mp4";
+  //       } else if (conditionText.includes("sunny")) {
+  //         path = "/src/assets/video/sunny.mp4";
+  //       } else if (conditionText.includes("cloudy")) {
+  //         path = "/src/assets/video/cloudy.mp4";
+  //       } else if (conditionText.includes("overcast")) {
+  //         path = "/src/assets/video/overcast.mp4";
+  //       } else if (conditionText.includes("snow")) {
+  //         path = "/src/assets/video/light-snow.mp4";
+  //       } else if (conditionText.includes("thunder")) {
+  //         path = "/src/assets/video/thunderstorm.mp4";
+  //       } else if (conditionText.includes("rain")) {
+  //         path = "/src/assets/video/heavy-rain.mp4";
+  //       } else if (conditionText.includes("mist")) {
+  //         path = "/src/assets/video/mist.mp4";
+  //       } else if (conditionText.includes("fog")) {
+  //         path = "/src/assets/video/fog.mp4";
+  //       } else if (conditionText.includes("drizzle")) {
+  //         path = "/src/assets/video/drizzle.mp4";
+  //       } else if (conditionText.includes("clear")) {
+  //         path = "/src/assets/video/clear.mp4";
+  //       } else if (conditionText.includes("patchy rain")) {
+  //         path = "/src/assets/video/patchy-rain.mp4";
+  //       } else if (conditionText.includes("patchy snow")) {
+  //         path = "/src/assets/video/patchy-snow.mp4";
+  //       } else if (conditionText.includes("patchy sleet")) {
+  //         path = "/src/assets/video/patchy-sleet.mp4";
+  //       } else if (conditionText.includes("blizzard")) {
+  //         path = "/src/assets/video/blizzard.mp4";
+  //       } else if (conditionText.includes("freezing drizzle")) {
+  //         path = "/src/assets/video/freezing-drizzle.mp4";
+  //       } else if (conditionText.includes("heavy freezing drizzle")) {
+  //         path = "/src/assets/video/heavy-freezing-drizzle.mp4";
+  //       } else if (conditionText.includes("light drizzle")) {
+  //         path = "/src/assets/video/light-drizzle.mp4";
+  //       } else if (conditionText.includes("light freezing rain")) {
+  //         path = "/src/assets/video/light-freezing-rain.mp4";
+  //       } else if (conditionText.includes("light sleet")) {
+  //         path = "/src/assets/video/light-sleet.mp4";
+  //       } else if (conditionText.includes("light snow")) {
+  //         path = "/src/assets/video/light-snow.mp4";
+  //       } else if (conditionText.includes("moderate snow")) {
+  //         path = "/src/assets/video/moderate-snow.mp4";
+  //       } else if (conditionText.includes("heavy snow")) {
+  //         path = "/src/assets/video/heavy-snow.mp4";
+  //       } else {
+  //         path = "/src/assets/video/weather-video.mp4";
+  //       }
+  //       dispatch(setVideo({ path }));
+  //       dispatch(setLocation({ name, country }));
+  //     }
+  //   }, [data, dispatch, name, country]);
 
   return {
     data,

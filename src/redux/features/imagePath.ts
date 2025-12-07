@@ -1,7 +1,7 @@
 import { createSlice, Reducer } from "@reduxjs/toolkit";
 import moment from "moment";
 
-interface IVideoState {
+interface IImageState {
   time: string;
   date: moment.Moment;
   image: string;
@@ -39,6 +39,6 @@ export const imageSlice = createSlice({
   },
 });
 export const { setImage, setTimeZone, setLocation } = imageSlice.actions;
-const imageReducer: Reducer<IVideoState> = imageSlice.reducer;
+const imageReducer: Reducer<IImageState> = imageSlice.reducer;
 
 export default imageReducer;

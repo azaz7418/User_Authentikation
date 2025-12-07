@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { useAppSelector } from "../redux/store";
 
 function Layout() {
-  const { image } = useAppSelector((state) => state.video);
+  const { image } = useAppSelector((state) => state.image);
 
   return (
     <div className="flex flex-col h-screen">

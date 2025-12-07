@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 
 const Header = () => {
-  const { timeZone, name, country } = useAppSelector((state) => state.video);
+  const { timeZone, name, country } = useAppSelector((state) => state.image);
 
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");

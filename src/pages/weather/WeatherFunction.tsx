@@ -19,12 +19,14 @@ export const useWeatherLogic = (initialCity?: string) => {
     }
   }, [initialCity]);
 
-  const { data, refetch } = useQuery({
+  const { data, refetch, isError } = useQuery({
     queryFn: () => getWeatherInfo(city),
     queryKey: ["weather-data", city],
     enabled: !!city,
   });
-
+  if (isError) {
+    setCity("New York");
+  }
   // Extracted variables before using them
   const name = data?.location?.name;
   const country = data?.location?.country;

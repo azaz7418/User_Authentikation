@@ -15,7 +15,6 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route path="/:city?" element={<Home />} />
-        {/* <Route path='/profile' element={<Profile/>} /> */}
       </Route>
     )
   );
@@ -23,11 +22,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      {/* <Auth role={["admin"]}>
-        {" "}
-        <Home />{" "}
-      </Auth>
-      <Login /> */}
+      
     </>
   );
 }

@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
+import { useAppSelector } from "../redux/store";
 
 function Layout() {
-  const {video}= useSelector(state=>state)
+  const { video } = useAppSelector((state) => state);
   return (
     <div className="flex flex-col h-screen">
       <Header />

@@ -20,7 +20,7 @@ const WeatherForm: React.FC = () => {
   const [temp, setTemp] = useState(true);
   const [city, setCity] = useState("Khulna");
   const [inputValue, setInputValue] = useState<string>("");
-  const [videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
+  const [_videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ const WeatherForm: React.FC = () => {
     queryKey: ["weather-data", city],
     enabled: !!city,
   });
-console.log(data);
+  console.log(data);
 
   // Extracted variables before using them
   const name = data?.location?.name;
@@ -61,8 +61,8 @@ console.log(data);
 
       if (conditionText.includes("partly cloudy")) {
         path = "/src/assets/video/partlycloudy.mp4";
-      } else if (conditionText.includes("rain")) {
-        path = "/src/assets/video/rain.mp4";
+      } else if (conditionText.includes("light rain")) {
+        path = "/src/assets/video/light-rain.mp4";
       } else if (conditionText.includes("sunny")) {
         path = "/src/assets/video/sunny.mp4";
       } else if (conditionText.includes("cloudy")) {
@@ -73,6 +73,10 @@ console.log(data);
         path = "/src/assets/video/light-snow.mp4";
       } else if (conditionText.includes("thunder")) {
         path = "/src/assets/video/thunderstorm.mp4";
+      } else if (conditionText.includes("rain")) {
+        path = "/src/assets/video/heavy-rain.mp4";
+      } else {
+        alert("No video found for this weather condition");
       }
 
       dispatch(setVideo({ path }));
@@ -92,7 +96,6 @@ console.log(data);
     }
     setInputValue("");
     // console.log(data);
-    
   };
 
   return (

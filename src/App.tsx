@@ -2,7 +2,6 @@ import axios from "axios";
 import "./App.css";
 // import Auth from "./components/Auth";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import { useAppSelector } from "./redux/store";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Layout from "./LayOut/Layout";
@@ -16,7 +15,6 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         {/* <Route path='/profile' element={<Profile/>} /> */}
       </Route>
     )

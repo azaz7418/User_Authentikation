@@ -1,6 +1,15 @@
 import { createSlice, Reducer } from "@reduxjs/toolkit";
 import moment from "moment";
 
+interface IVideoState {
+  time: string;
+  date: moment.Moment;
+  video: string;
+  timeZone: string;
+  name: string;
+  country: string;
+} 
+
 const initialState = {
   time: "",
   date: moment(),
@@ -30,6 +39,6 @@ export const videoSlice = createSlice({
   },
 });
 export const { setVideo, setTimeZone, setLocation } = videoSlice.actions;
-const videoReducer: Reducer<any> = videoSlice.reducer;
+const videoReducer: Reducer<IVideoState> = videoSlice.reducer;
 
 export default videoReducer;

@@ -6,12 +6,12 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import axios from "axios";
+// import axios from "axios";
 import { ConfigProvider, theme } from "antd";
 
 const queryClient = new QueryClient();
 
-axios.defaults.baseURL = "http://localhost:5000/api/v1";
+// axios.defaults.baseURL = "http://localhost:5000/api/v1";
 
 const themeConfig = {
   token: {

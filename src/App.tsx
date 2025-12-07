@@ -1,15 +1,13 @@
-import axios from "axios";
+// import axios from "axios";
 import "./App.css";
-// import Auth from "./components/Auth";
 import Home from "./pages/Home";
-import { useAppSelector } from "./redux/store";
+// import { useAppSelector } from "./redux/store";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Layout from "./LayOut/Layout";
-// import { Profiler } from "react";
 
 function App() {
-  const { token } = useAppSelector((state) => state.auth);
-  axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+  // const { token } = useAppSelector((state) => state.auth);
+  // axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
   const router = createBrowserRouter(
     createRoutesFromElements(

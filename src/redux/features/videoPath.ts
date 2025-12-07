@@ -13,7 +13,7 @@ interface IVideoState {
 const initialState = {
   time: "",
   date: moment(),
-  video: "",
+  video: "/src/assets/video/weather-video.mp4",
   timeZone: "",
   name: "",
   country: "",

@@ -1,4 +1,5 @@
-import WeatherForm from "./weather/WeatherForm"
+import WeatherForm from "./weather/WeatherForm";
+import { useParams } from "react-router-dom";
 
 // const info=[
 //   {
@@ -8,12 +9,12 @@ import WeatherForm from "./weather/WeatherForm"
 //   }
 // ]
 const Home = () => {
- 
+  const { city } = useParams();
   return (
     <div className="h-full w-full">
-      <WeatherForm />
+      <WeatherForm city={city} />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

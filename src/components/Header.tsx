@@ -2,13 +2,12 @@ import { useAppSelector } from "../redux/store";
 import { useState, useEffect } from "react";
 import moment from "moment";
 
-
-
 const Header = () => {
   const { timeZone, name, country } = useAppSelector((state) => state.video);
 
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
+  
 
   useEffect(() => {
     const updateTime = () => {
@@ -24,12 +23,15 @@ const Header = () => {
   }, [timeZone]);
 
   return (
-    <div className="  flex justify-between items-center text-white gap-3 w-full backdrop-blur-2xl backdrop-brightness-50  p-5">
+    <div className="flex justify-between items-center text-white w-full backdrop-blur-xl bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] p-5">
       <div>
         <h1 className="text-sm font-semibold font-[Times New Roman]">{time && time}</h1>
         <h1 className="text-sm font-semibold font-[Times New Roman]">{date && date}</h1>
       </div>
-      <div>
+      <div className="text-center">
+        <h1 className="text-2xl font-bold font-[Times New Roman]">WeatherInfo</h1>
+      </div>
+      <div className="text-right">
         <h2 className="text-sm font-semibold font-[Times New Roman]">{name}</h2>
         <h2 className="text-lg font-semibold font-[Times New Roman]">{country}</h2>
       </div>

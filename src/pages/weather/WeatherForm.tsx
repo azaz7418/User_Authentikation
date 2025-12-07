@@ -1,89 +1,14 @@
 import { Button, Form, Input, Space } from "antd";
-import axios from "axios";
-import moment from "moment-timezone";
-import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import { countryToTimeZone } from "../../ConstantData";
-import { setVideo, setTimeZone, setLocation } from "../../redux/features/videoPath";
-import { useAppDispatch } from "../../redux/store";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useWeatherLogic } from "./WeatherFunction";
 
-const getWeatherInfo = async (city: string) => {
-  const { data } = await axios.get("http://api.weatherapi.com/v1/current.json", {
-    params: { key: "37356d85e8454a36b8a70054250403", q: city },
-  });
-  return data;
-};
-
-const WeatherForm: React.FC = () => {
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
+const WeatherForm: React.FC<{ city?: string }> = ({ city: initialCity }) => {
   const [temp, setTemp] = useState(true);
-  const [city, setCity] = useState("Khulna");
   const [inputValue, setInputValue] = useState<string>("");
-  const [_videoPath, setVideoPath] = useState("/src/assets/video/weather-video.mp4");
 
-  const dispatch = useAppDispatch();
-
-  const { data, refetch } = useQuery({
-    queryFn: () => getWeatherInfo(city),
-    queryKey: ["weather-data", city],
-    enabled: !!city,
-  });
-  console.log(data);
-
-  // Extracted variables before using them
-  const name = data?.location?.name;
-  const country = data?.location?.country;
-
-  useEffect(() => {
-    if (country && countryToTimeZone[country]) {
-      const timeZone = countryToTimeZone[country];
-      const updateTime = () => {
-        setDate(moment().tz(timeZone).format("YYYY-MM-DD"));
-        setTime(moment().tz(timeZone).format("HH:mm:ss"));
-      };
-
-      dispatch(setTimeZone({ timeZone }));
-      updateTime();
-      const interval = setInterval(updateTime, 1000);
-      return () => clearInterval(interval);
-    } else {
-      setTime(time);
-      setDate(date);
-    }
-  }, [country]);
-
-  useEffect(() => {
-    if (data?.current?.condition?.text) {
-      let path = "/src/assets/video/partlycloudy.mp4"; // Default path
-
-      const conditionText = data.current.condition.text.toLowerCase();
-
-      if (conditionText.includes("partly cloudy")) {
-        path = "/src/assets/video/partlycloudy.mp4";
-      } else if (conditionText.includes("light rain")) {
-        path = "/src/assets/video/light-rain.mp4";
-      } else if (conditionText.includes("sunny")) {
-        path = "/src/assets/video/sunny.mp4";
-      } else if (conditionText.includes("cloudy")) {
-        path = "/src/assets/video/cloudy.mp4";
-      } else if (conditionText.includes("overcast")) {
-        path = "/src/assets/video/overcast.mp4";
-      } else if (conditionText.includes("snow")) {
-        path = "/src/assets/video/light-snow.mp4";
-      } else if (conditionText.includes("thunder")) {
-        path = "/src/assets/video/thunderstorm.mp4";
-      } else if (conditionText.includes("rain")) {
-        path = "/src/assets/video/heavy-rain.mp4";
-      } else {
-        alert("No video found for this weather condition");
-      }
-
-      dispatch(setVideo({ path }));
-      dispatch(setLocation({ name, country }));
-      setVideoPath(path);
-    }
-  }, [data]);
+  const navigate = useNavigate();
+  const { data, time, date, setCity, refetch } = useWeatherLogic(initialCity);
 
   const tempHandler = (isCelsius: boolean) => {
     setTemp(isCelsius);
@@ -93,15 +18,15 @@ const WeatherForm: React.FC = () => {
     if (inputValue.trim()) {
       setCity(inputValue);
       refetch();
+      navigate(`/${inputValue}`);
     }
     setInputValue("");
-    // console.log(data);
   };
 
   return (
     <div>
       <div className="relative flex justify-center items-center h-screen bg-transparent p-4">
-        <div className="px-12 py-4 text-center backdrop-blur-xl backdrop-brightness-75 backdrop-contrast-75 rounded-xl">
+        <div className="px-12 py-4 text-center backdrop-blur-xl bg-[rgba(0,0,0,0.2)] border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-xl">
           {data && (
             <div>
               <div className="flex justify-between items-center gap-10 mb-6">
@@ -132,6 +57,38 @@ const WeatherForm: React.FC = () => {
 
               <div className="m-5 font-medium text-white">
                 <h2>{data.current.condition.text}</h2>
+                <h3>
+                  {date} {time}
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mt-6 text-white">
+                <div className="text-center">
+                  <p className="text-sm opacity-80">Humidity</p>
+                  <p className="text-lg font-semibold">{data.current.humidity}%</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm opacity-80">Wind</p>
+                  <p className="text-lg font-semibold">{data.current.wind_kph} km/h</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm opacity-80">Pressure</p>
+                  <p className="text-lg font-semibold">{data.current.pressure_mb} mb</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm opacity-80">Visibility</p>
+                  <p className="text-lg font-semibold">{data.current.vis_km} km</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm opacity-80">UV Index</p>
+                  <p className="text-lg font-semibold">{data.current.uv}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm opacity-80">Feels Like</p>
+                  <p className="text-lg font-semibold">
+                    {temp ? data.current.feelslike_c : data.current.feelslike_f}°{temp ? "C" : "F"}
+                  </p>
+                </div>
               </div>
             </div>
           )}

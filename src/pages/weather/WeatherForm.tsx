@@ -8,14 +8,14 @@ const WeatherForm: React.FC<{ city?: string }> = ({ city: initialCity }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const navigate = useNavigate();
-  const { data, time, date, setCity } = useWeatherLogic(initialCity);
+  const { data, time, date, setCity, refetch } = useWeatherLogic(initialCity);
   // const { image } = useAppSelector((state) => state.im);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
       setCity(inputValue);
-      // refetch();
+      refetch();
       navigate(`/${inputValue}`);
       setInputValue("");
     }

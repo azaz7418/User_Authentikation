@@ -49,60 +49,60 @@ export const useWeatherLogic = (initialCity?: string) => {
 
   useEffect(() => {
     if (data?.current?.condition?.text) {
-      let path = "/src/assets/image/weather-image.jpg"; // Default path
+      let path = "/image/weather-image.jpg"; // Default path
 
       const conditionText = data.current.condition.text.toLowerCase();
 
       if (conditionText.includes("partly cloudy")) {
-        path = "/src/assets/image/partlycloudy.jpg";
+        path = "/image/partlycloudy.jpg";
       } else if (conditionText.includes("light rain")) {
-        path = "/src/assets/image/light-rain.jpg";
+        path = "/image/light-rain.jpg";
       } else if (conditionText.includes("sunny")) {
-        path = "/src/assets/image/sunny.jpg";
+        path = "/image/sunny.jpg";
       } else if (conditionText.includes("cloudy")) {
-        path = "/src/assets/image/cloudy.jpg";
+        path = "/image/cloudy.jpg";
       } else if (conditionText.includes("overcast")) {
-        path = "/src/assets/image/overcast.jpg";
+        path = "/image/overcast.jpg";
       } else if (conditionText.includes("snow")) {
-        path = "/src/assets/image/light-snow.jpg";
+        path = "/image/light-snow.jpg";
       } else if (conditionText.includes("thunder")) {
-        path = "/src/assets/image/thunderstorm.jpg";
+        path = "/image/thunderstorm.jpg";
       } else if (conditionText.includes("rain")) {
-        path = "/src/assets/image/heavy-rain.jpg";
+        path = "/image/heavy-rain.jpg";
       } else if (conditionText.includes("mist")) {
-        path = "/src/assets/image/mist.jpg";
+        path = "/image/mist.jpg";
       } else if (conditionText.includes("fog")) {
-        path = "/src/assets/image/fog.jpg";
+        path = "/image/fog.jpg";
       } else if (conditionText.includes("drizzle")) {
-        path = "/src/assets/image/drizzle.jpg";
+        path = "/image/drizzle.jpg";
       } else if (conditionText.includes("clear")) {
-        path = "/src/assets/image/clear.jpg";
+        path = "/image/clear.jpg";
       } else if (conditionText.includes("patchy rain")) {
-        path = "/src/assets/image/patchy-rain.jpg";
+        path = "/image/patchy-rain.jpg";
       } else if (conditionText.includes("patchy snow")) {
-        path = "/src/assets/image/patchy-snow.jpg";
+        path = "/image/patchy-snow.jpg";
       } else if (conditionText.includes("patchy sleet")) {
-        path = "/src/assets/image/patchy-sleet.jpg";
+        path = "/image/patchy-sleet.jpg";
       } else if (conditionText.includes("blizzard")) {
-        path = "/src/assets/image/blizzard.jpg";
+        path = "/image/blizzard.jpg";
       } else if (conditionText.includes("freezing drizzle")) {
-        path = "/src/assets/image/freezing-drizzle.jpg";
+        path = "/image/freezing-drizzle.jpg";
       } else if (conditionText.includes("heavy freezing drizzle")) {
-        path = "/src/assets/image/heavy-freezing-drizzle.jpg";
+        path = "/image/heavy-freezing-drizzle.jpg";
       } else if (conditionText.includes("light drizzle")) {
-        path = "/src/assets/image/light-drizzle.jpg";
+        path = "/image/light-drizzle.jpg";
       } else if (conditionText.includes("light freezing rain")) {
-        path = "/src/assets/image/light-freezing-rain.jpg";
+        path = "/image/light-freezing-rain.jpg";
       } else if (conditionText.includes("light sleet")) {
-        path = "/src/assets/image/light-sleet.jpg";
+        path = "/image/light-sleet.jpg";
       } else if (conditionText.includes("light snow")) {
-        path = "/src/assets/image/light-snow.jpg";
+        path = "/image/light-snow.jpg";
       } else if (conditionText.includes("moderate snow")) {
-        path = "/src/assets/image/moderate-snow.jpg";
+        path = "/image/moderate-snow.jpg";
       } else if (conditionText.includes("heavy snow")) {
-        path = "/src/assets/image/heavy-snow.jpg";
+        path = "/image/heavy-snow.jpg";
       } else {
-        path = "/src/assets/image/weather-video.jpg";
+        path = "/image/weather-video.jpg";
       }
       dispatch(setImage({ path }));
       dispatch(setLocation({ name, country }));
